@@ -9,7 +9,7 @@ jobs:
         - name: Checkout Repo
           uses: actions/checkout@V3
         - name: Steup node.js
-          uses: actions/setup-node@V4
+          uses: actions/setup-node@V3
           with:
             node-version: 18
         - name: Install dependencies
