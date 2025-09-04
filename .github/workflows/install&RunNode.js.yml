@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: Checkout Repo
-          uses: actions/checkout@V4
+          uses: actions/checkout@V3
         - name: Steup node.js
           uses: actions/setup-node@V4
           with:
