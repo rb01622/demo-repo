@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: Checkout Repo
-          uses: actions/checkout@V3
+          uses: actions/checkout@v4
         - name: Steup node.js
-          uses: actions/setup-node@V3
+          uses: actions/setup-node@v4
           with:
             node-version: 18
         - name: Install dependencies
