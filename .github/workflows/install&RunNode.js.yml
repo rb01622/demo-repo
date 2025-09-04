@@ -1,0 +1,23 @@
+name: Install Node.Js App
+on:
+  push: 
+    branches: [ main ]
+jobs:
+  build-run:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout Repo
+          uses: actions/checkout@V4
+        - name: Steup node.js
+          uses: actions/setup-node@V4
+          with:
+            node-version: 18
+        - name: Install dependencies
+          run: npm install
+        - name: Run App
+          run: npm start
+          
+          
+
+        
+      
