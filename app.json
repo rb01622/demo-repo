@@ -8,7 +8,7 @@
   },
   "env": {
     "NODE_ENV": {
-      "description": "The Rajesh Kannah  environment the app runs in",
+      "description": "The Rajesh Kannah K.B  environment the app runs in",
       "value": "production"
     },
     "PORT": {
