@@ -4,11 +4,11 @@
   "repository": "https://github.com/rb01622/rajeshcicd160925.git",
   "keywords": ["node", "express", "devops", "cicd"],
   "scripts": {
-    "postdeploy": "echo 'App deployed successfully!'"
+    "postdeploy": "echo 'Rajesh App deployed successfully!'"
   },
   "env": {
     "NODE_ENV": {
-      "description": "The environment the app runs in",
+      "description": "The Rajesh environment the app runs in",
       "value": "production"
     },
     "PORT": {
