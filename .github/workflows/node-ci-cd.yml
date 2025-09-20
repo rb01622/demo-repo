@@ -1,4 +1,4 @@
-name: Node.js CI/CD to AWS Elastic Beanstalk
+name: Node.js CI/CD with Docker to AWS ECS
 
 on:
   push:
@@ -7,6 +7,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # OIDC for AWS auth
+      contents: read
 
     steps:
       - name: Checkout source code
@@ -18,22 +21,36 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests
         run: npm test
+        continue-on-error: false
 
-      - name: Archive app
-        run: zip -r app.zip * .[^.]*
-
-      - name: Deploy to Elastic Beanstalk
-        uses: einaregilsson/beanstalk-deploy@v21
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: "nodejs-ci-cd-app"
-          environment_name: "Nodejs-ci-cd-app-env"
-          region: "us-east-1"
-          version_label: "v-${{ github.sha }}"
-          deployment_package: "app.zip"
+          role-to-assume: arn:aws:iam::123456789012:role/GithubActions-ECS-Deploy
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image to ECR
+        run: |
+          IMAGE_TAG=${GITHUB_SHA}
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY=nodejs-ci-cd-app
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ecs-task-def.json
+          service: nodejs-ci-cd-service
+          cluster: nodejs-ci-cd-cluster
+          wait-for-service-stability: true
 
