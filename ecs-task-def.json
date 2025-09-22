@@ -1,5 +1,5 @@
 {
-  "family": "nodejs-ci-cd-task",
+  "family": "rajesh-nodejs-ci-cd-task",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "256",
@@ -7,7 +7,7 @@
   "containerDefinitions": [
     {
       "name": "nodejs-app",
-      "image": "REPLACED_BY_PIPELINE",
+      "image": "089204452167.dkr.ecr.us-east-1.amazonaws.com/nodejs-ci-cd-app:latest",
       "portMappings": [
         {
           "containerPort": 3000,
