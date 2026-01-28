@@ -1,0 +1,31 @@
+{
+  "family": "rajesh-nodejs-task",
+  "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::089204452167:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "nodejs-app",
+      "image": "089204452167.dkr.ecr.us-east-1.amazonaws.com/nodejs-ci-cd-app:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/rajesh-nodejs-app",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512"
+}	

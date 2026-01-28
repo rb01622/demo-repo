@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-ci-cd-sample",
+  "description": "A simple Node.js app to demonstrate CI/CD pipeline",
+  "repository": "https://github.com/rb01622/rajeshcicd160925.git",
+  "keywords": ["node", "express", "devops", "cicd"],
+  "scripts": {
+    "postdeploy": "echo 'Rajesh App deployed successfully!'"
+  },
+  "env": {
+    "NODE_ENV": {
+      "description": "The Rajesh Kannah K.B  environment the app runs in",
+      "value": "production"
+    },
+    "PORT": {
+      "description": "Port to run the Node.js app",
+      "value": "3000"
+    }
+  }
+}
